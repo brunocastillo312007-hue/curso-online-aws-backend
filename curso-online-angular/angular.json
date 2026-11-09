@@ -55,12 +55,8 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "host": "0.0.0.0",
-            "port": 4200,
-            "allowedHosts": [
-              "laptop-hj4guj0k.taile5d438.ts.net",
-              ".ts.net"
-            ]
+            "host": "localhost",
+            "port": 4200
           },
           "configurations": {
             "production": {

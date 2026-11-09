@@ -15,10 +15,8 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
                         .allowedOrigins(
-                            "http://localhost:4200", 
-                            "http://localhost:5173",
-                            "https://laptop-hj4guj0k.taile5d438.ts.net",
-                            "https://curso-online-2161.vercel.app"
+                                "http://localhost:4200", 
+                                "https://curso-online-teal.vercel.app" // <-- Tu dominio exacto actual en Vercel
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")

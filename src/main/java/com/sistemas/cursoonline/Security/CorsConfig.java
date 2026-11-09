@@ -17,7 +17,8 @@ public class CorsConfig {
                         .allowedOrigins(
                             "http://localhost:4200", 
                             "http://localhost:5173",
-                            "https://laptop-hj4guj0k.taile5d438.ts.net" // <--- Tu dominio público de Tailscale del frontend
+                            "https://laptop-hj4guj0k.taile5d438.ts.net",
+                            "https://curso-online-2161.vercel.app"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")

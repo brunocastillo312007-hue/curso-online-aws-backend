@@ -1,0 +1,88 @@
+<div class="container-fluid p-0 m-0 vh-100 overflow-hidden">
+  <div class="row h-100 g-0">
+    
+    <!-- COLUMNA IZQUIERDA: Banner Azul con Degradado e Identidad -->
+    <div class="col-lg-6 text-white d-flex flex-column justify-content-between p-4 p-md-5"
+         style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);">
+      
+      <!-- Logo Superior -->
+      <div>
+        <h5 class="fw-bold mb-0 d-flex align-items-center gap-2 text-white">
+          🎓 CursoOnline
+        </h5>
+      </div>
+
+      <!-- Texto Central de Bienvenida -->
+      <div class="my-auto py-5">
+        <span class="badge bg-white bg-opacity-25 text-white mb-3 px-3 py-2 rounded-pill fw-normal" style="font-size: 0.8rem;">
+          Plataforma Educativa V1.0
+        </span>
+        <h1 class="display-4 fw-bold mb-3 text-white">
+          Bienvenido a CursoOnline  👋
+        </h1>
+        <p class="text-white-50 lead fs-6" style="max-width: 450px;">
+          Gestiona tus materias, automatiza inscripciones de alumnos y mantén el control total de tu entorno académico integrado con Spring Boot y Angular.
+        </p>
+      </div>
+
+      <!-- Pie de página izquierdo -->
+      <div>
+        <small class="text-white-50" style="font-size: 0.75rem;">
+          © 2026 CursoOnline • Todos los derechos reservados.
+        </small>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: Formulario de Acceso Minimalista -->
+    <div class="col-lg-6 bg-white d-flex flex-column justify-content-center align-items-center p-4 p-md-5">
+      <div class="w-100" style="max-width: 400px;">
+        
+        <!-- Título -->
+        <div class="mb-4">
+          <h2 class="fw-bold text-dark mb-1">Welcome Back!</h2>
+          <p class="text-muted small">
+            Ingresa tus credenciales para acceder al sistema.
+          </p>
+        </div>
+
+        <!-- Alerta de Error si las credenciales fallan -->
+        <div *ngIf="errorMensaje" class="alert alert-danger py-2 small mb-3" role="alert">
+          {{ errorMensaje }}
+        </div>
+
+        <!-- Formulario de Login -->
+        <form (ngSubmit)="onLogin()">
+          <div class="mb-3">
+            <label class="form-label text-secondary small fw-semibold">Correo electrónico</label>
+            <input 
+              type="email" 
+              class="form-control py-2 shadow-none" 
+              [(ngModel)]="credenciales.correo" 
+              name="correo" 
+              placeholder="nombre@correo.com" 
+              required 
+            />
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label text-secondary small fw-semibold">Contraseña</label>
+            <input 
+              type="password" 
+              class="form-control py-2 shadow-none" 
+              [(ngModel)]="credenciales.password" 
+              name="password" 
+              placeholder="••••••••" 
+              required 
+            />
+          </div>
+
+          <button type="submit" class="btn btn-dark w-100 py-2 fw-semibold shadow-sm mb-3" style="background-color: #212529; border: none;">
+            Iniciar Sesión
+          </button>
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>

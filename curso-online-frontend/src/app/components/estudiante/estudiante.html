@@ -1,0 +1,62 @@
+<div class="h-100 overflow-y-auto p-4">
+  <div *ngIf="cargando" class="text-center py-5 text-muted">
+    <p>Cargando panel de estudiante...</p>
+  </div>
+
+  <div *ngIf="!cargando">
+    <!-- SECCIÓN 1: MIS CURSOS MATRICULADOS -->
+    <div class="mb-4">
+      <h4 class="fw-bold mb-3 text-primary">🎓 Mis Cursos Matriculados</h4>
+      <div *ngIf="misInscripciones.length === 0" class="text-center py-4 bg-light rounded text-muted">
+        Aún no estás inscrito en ningún curso. ¡Explora el catálogo de abajo e inscríbete!
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6" *ngFor="let ins of misInscripciones">
+          <div class="card border-0 shadow-sm p-4 h-100 bg-light d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h5 class="fw-bold text-dark mb-0">{{ ins.curso?.titulo || ins.curso?.nombre }}</h5>
+                <span class="badge bg-success text-white px-2 py-1">Inscrito</span>
+              </div>
+              <p class="text-muted small mb-3">{{ ins.curso?.descripcion }}</p>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-secondary-subtle">
+              <small class="text-secondary fw-semibold">Inscripción #{{ ins.id }}</small>
+              <button class="btn btn-outline-danger btn-sm px-3 shadow-sm" (click)="cancelarInscripcion(ins.id)">
+                Cancelar Matrícula
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 2: CATÁLOGO DE CURSOS DISPONIBLES -->
+    <div>
+      <h4 class="fw-bold mb-3 text-dark">📚 Catálogo de Cursos Disponibles</h4>
+      <div *ngIf="cursosDisponibles.length === 0" class="text-center py-4 bg-light rounded text-muted">
+        No hay cursos disponibles en este momento.
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6" *ngFor="let curso of cursosDisponibles">
+          <div class="card border-0 shadow-sm p-4 h-100 bg-light d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h5 class="fw-bold text-dark mb-0">{{ curso.titulo || curso.nombre }}</h5>
+                <span class="badge bg-primary text-white px-3 py-2">$ {{ curso.precio }}</span>
+              </div>
+              <p class="text-muted small mb-3">{{ curso.descripcion }}</p>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-secondary-subtle">
+              <small class="text-secondary fw-semibold">ID: #{{ curso.id }}</small>
+              <span *ngIf="estaInscrito(curso.id)" class="badge bg-secondary text-white px-3 py-2">Ya Matriculado</span>
+              <button *ngIf="!estaInscrito(curso.id)" class="btn btn-success btn-sm px-3 shadow-sm" (click)="inscribir(curso.id)">
+                Inscribirse al Curso
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

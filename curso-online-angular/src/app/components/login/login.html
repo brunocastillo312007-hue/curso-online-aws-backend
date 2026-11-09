@@ -1,0 +1,182 @@
+<div class="container-fluid p-0 m-0 login-wrapper">
+  <div class="row g-0 flex-column flex-lg-row h-100">
+    
+    <!-- COLUMNA IZQUIERDA: Panel Azul Corporativo -->
+    <div class="col-12 col-lg-6 text-white d-flex flex-column justify-content-between p-4 p-md-5 panel-izquierdo-login"
+         style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);">
+      <div>
+        <h5 class="fw-bold mb-0 d-flex align-items-center gap-2 text-white" (click)="speechService.hablar('Curso Online, plataforma educativa')">
+          🎓 CursoOnline
+        </h5>
+      </div>
+
+      <div class="my-auto py-5">
+        <span class="badge bg-white bg-opacity-25 text-white mb-3 px-3 py-2 rounded-pill fw-normal" style="font-size: 0.8rem;">
+          Plataforma Educativa V1.0
+        </span>
+        <h1 class="display-4 fw-bold mb-3 text-white">
+          Bienvenido a CursoOnline 👋
+        </h1>
+        <p class="text-white-50 lead fs-6" style="max-width: 450px;">
+          Gestiona tus materias, automatiza inscripciones de alumnos y mantén el control total de tu entorno académico integrado con Spring Boot y Angular.
+        </p>
+      </div>
+
+      <div>
+        <small class="text-white-50" style="font-size: 0.75rem;">
+          © 2026 CursoOnline • Todos los derechos reservados.
+        </small>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: Vistas Dinámicas -->
+    <div class="col-12 col-lg-6 bg-white d-flex flex-column justify-content-center align-items-center p-4 p-md-5 panel-derecho-login">
+      <div class="w-100" style="max-width: 400px;">
+        
+        <!-- Alertas globales -->
+        <div *ngIf="errorMensaje" class="alert alert-danger py-2 small mb-3" role="alert">
+          {{ errorMensaje }}
+        </div>
+        <div *ngIf="mensajeEstado" class="alert alert-success py-2 small mb-3" role="alert">
+          {{ mensajeEstado }}
+        </div>
+
+        <!-- ================= VISTA 1: INICIAR SESIÓN ================= -->
+        <div *ngIf="pestanaActiva === 'login'">
+          <div class="mb-4">
+            <h2 class="fw-bold text-dark mb-1">Welcome Back!</h2>
+            <p class="text-muted small">
+              ¿No tienes una cuenta? <a href="javascript:void(0)" (click)="cambiarPestana('registro')" class="text-primary text-decoration-none fw-semibold">Regístrate ahora</a>
+            </p>
+          </div>
+
+          <form (ngSubmit)="onLogin()">
+            <div class="mb-3">
+              <label class="form-label text-secondary small fw-semibold">Correo electrónico</label>
+              <input type="email" class="form-control py-2 shadow-none" 
+                     [(ngModel)]="credenciales.correo" name="correoLogin" 
+                     placeholder="nombre@correo.com" 
+                     (focus)="speechService.hablar('Casilla de correo electrónico')" required />
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label text-secondary small fw-semibold">Contraseña</label>
+              <input type="password" class="form-control py-2 shadow-none" 
+                     [(ngModel)]="credenciales.password" name="passwordLogin" 
+                     placeholder="••••••••" 
+                     (focus)="speechService.hablar('Casilla de contraseña')" required />
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100 py-2 fw-semibold shadow-sm mb-3" style="background-color: #212529; border: none;">
+              Iniciar Sesión
+            </button>
+          </form>
+
+          <div class="text-center mt-2">
+            <small class="text-muted">
+              ¿Necesitas <a href="javascript:void(0)" (click)="cambiarPestana('verificar')" class="text-primary text-decoration-none fw-semibold">verificar tu cuenta</a>?
+            </small>
+          </div>
+        </div>
+
+        <!-- ================= VISTA 2: REGISTRARSE ================= -->
+        <div *ngIf="pestanaActiva === 'registro'">
+          <div class="mb-3">
+            <h2 class="fw-bold text-dark mb-1">Crear Cuenta</h2>
+            <p class="text-muted small">
+              ¿Ya tienes una cuenta? <a href="javascript:void(0)" (click)="cambiarPestana('login')" class="text-primary text-decoration-none fw-semibold">Inicia sesión</a>
+            </p>
+          </div>
+
+          <form (ngSubmit)="onRegistrar()">
+            <div class="mb-2">
+              <label class="form-label text-secondary small fw-semibold">Cédula</label>
+              <input type="text" class="form-control py-2 shadow-none" 
+                     [(ngModel)]="nuevoUsuario.cedula" name="cedulaReg" 
+                     placeholder="Número de cédula" 
+                     (focus)="speechService.hablar('Casilla de número de cédula')" required />
+            </div>
+            <div class="mb-2">
+              <label class="form-label text-secondary small fw-semibold">Nombre Completo</label>
+              <input type="text" class="form-control py-2 shadow-none" 
+                     [(ngModel)]="nuevoUsuario.nombre" name="nombreReg" 
+                     placeholder="Tu nombre" 
+                     (focus)="speechService.hablar('Casilla de nombre completo')" required />
+            </div>
+            <div class="mb-2">
+              <label class="form-label text-secondary small fw-semibold">Correo electrónico</label>
+              <input type="email" class="form-control py-2 shadow-none" 
+                     [(ngModel)]="nuevoUsuario.correo" name="correoReg" 
+                     placeholder="correo@ejemplo.com" 
+                     (focus)="speechService.hablar('Casilla de correo electrónico para registro')" required />
+            </div>
+            <div class="mb-2">
+              <label class="form-label text-secondary small fw-semibold">Contraseña</label>
+              <input type="password" class="form-control py-2 shadow-none" 
+                     [(ngModel)]="nuevoUsuario.password" name="passwordReg" 
+                     placeholder="••••••••" 
+                     (focus)="speechService.hablar('Casilla de contraseña para registro')" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-secondary small fw-semibold">Rol</label>
+              <select class="form-select py-2 shadow-none" 
+                      [(ngModel)]="nuevoUsuario.rol" name="rolReg"
+                      (focus)="speechService.hablar('Seleccionar rol de usuario')">
+                <option value="ESTUDIANTE">ESTUDIANTE</option>
+                <option value="PROFESOR">PROFESOR</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm mb-3">
+              Registrarse
+            </button>
+          </form>
+        </div>
+
+        <!-- ================= VISTA 3: VERIFICAR CUENTA ================= -->
+        <div *ngIf="pestanaActiva === 'verificar'">
+          <div class="mb-4">
+            <h2 class="fw-bold text-dark mb-1">Verificar Cuenta</h2>
+            <p class="text-muted small">
+              Ingresa el código que enviamos a tu correo. <a href="javascript:void(0)" (click)="cambiarPestana('login')" class="text-primary text-decoration-none fw-semibold">Volver al login</a>
+            </p>
+          </div>
+
+          <form (ngSubmit)="onVerificar()">
+            <div class="mb-3">
+              <label class="form-label text-secondary small fw-semibold">Correo electrónico</label>
+              <input type="email" class="form-control py-2 shadow-none" 
+                     [(ngModel)]="verificacionData.correo" name="correoVerif" 
+                     placeholder="correo@ejemplo.com" 
+                     (focus)="speechService.hablar('Casilla de correo para verificación')" required />
+            </div>
+            <div class="mb-4">
+              <label class="form-label text-secondary small fw-semibold">Código de Verificación</label>
+              <input type="text" class="form-control py-2 shadow-none" 
+                     [(ngModel)]="verificacionData.codigo" name="codigoVerif" 
+                     placeholder="123456" 
+                     (focus)="speechService.hablar('Casilla de código de verificación')" required />
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 py-2 fw-semibold shadow-sm mb-3">
+              Verificar Cuenta
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BOTÓN FLOTANTE DE ASISTENCIA POR VOZ -->
+<button 
+  type="button" 
+  class="btn rounded-circle shadow position-fixed bottom-0 end-0 m-4 d-flex align-items-center justify-content-center text-white"
+  [ngClass]="speechService.isVozActiva() ? 'btn-success' : 'btn-dark'"
+  style="width: 55px; height: 55px; z-index: 1050; font-size: 1.4rem;"
+  (click)="alternarVoz()"
+  [title]="speechService.isVozActiva() ? 'Desactivar asistencia de voz' : 'Activar asistencia de voz'">
+  {{ speechService.isVozActiva() ? '🔊' : '🔇' }}
+</button>

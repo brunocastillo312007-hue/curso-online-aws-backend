@@ -1,0 +1,90 @@
+/* ==========================================================
+   1. ESTILOS DE TAMAÑO DE TEXTO GLOBALES (Claro y Oscuro)
+   ================================================---------- */
+.texto-normal {
+  font-size: 1rem !important;
+}
+
+.texto-grande {
+  font-size: 1.15rem !important;
+}
+
+.texto-extra-grande {
+  font-size: 1.3rem !important;
+}
+
+/* Escalado proporcional de elementos internos según el tamaño seleccionado */
+.texto-grande .card, 
+.texto-grande .table, 
+.texto-grande .btn {
+  font-size: 1.05rem !important;
+}
+
+.texto-extra-grande .card, 
+.texto-extra-grande .table, 
+.texto-extra-grande .btn {
+  font-size: 1.15rem !important;
+}
+
+
+/* ==========================================================
+   2. ESTILOS DE MODO OSCURO (Fondo negro y tarjetas oscuras)
+   ================================================---------- */
+/* Fondo general completamente negro profundo */
+.bg-dark, 
+.bg-dark.container-fluid, 
+.bg-dark .col.h-100.overflow-y-auto {
+  background-color: #000000 !important;
+}
+
+/* Contenedor principal de la sección de usuarios/cursos */
+.bg-dark .card.border-0.shadow-sm.p-4 {
+  background-color: #121212 !important;
+  color: #ffffff !important;
+}
+
+/* Tarjetas métricas superiores en modo oscuro */
+.bg-dark .row.g-3.mb-4 .card {
+  background-color: #18181b !important;
+  color: #f8f9fa !important;
+  border: 1px solid #27272a !important;
+}
+
+.bg-dark .row.g-3.mb-4 .card small {
+  color: #a1a1aa !important;
+}
+
+.bg-dark .row.g-3.mb-4 .card h2 {
+  color: #ffffff !important;
+}
+
+/* Tablas y filas en modo oscuro */
+.bg-dark .table, 
+.bg-dark .table td, 
+.bg-dark .table th, 
+.bg-dark .table tr {
+  background-color: #121212 !important;
+  color: #f8f9fa !important;
+  border-color: #27272a !important;
+}
+
+.bg-dark .table td .fw-bold {
+  color: #ffffff !important;
+}
+
+.bg-dark .table td .text-muted {
+  color: #a1a1aa !important;
+}
+
+/* Inputs y selectores de roles en modo oscuro */
+.bg-dark .form-select, 
+.bg-dark .form-control {
+  background-color: #18181b !important;
+  color: #ffffff !important;
+  border-color: #3f3f46 !important;
+}
+
+.bg-dark .form-select option {
+  background-color: #18181b !important;
+  color: #ffffff !important;
+}

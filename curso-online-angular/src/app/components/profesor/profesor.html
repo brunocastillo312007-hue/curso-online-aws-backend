@@ -1,0 +1,171 @@
+<div class="container-fluid p-0 m-0 profesor-wrapper"
+     [ngClass]="{
+       'bg-dark text-light': modoOscuro, 
+       'bg-light': !modoOscuro,
+       'texto-normal': tamanoLetra === 'normal',
+       'texto-grande': tamanoLetra === 'grande',
+       'texto-extra-grande': tamanoLetra === 'extra-grande'
+     }">
+  <div class="row g-0 flex-column flex-lg-row h-100">
+    
+    <!-- SIDEBAR PROFESOR -->
+    <div class="col-12 col-lg-auto d-flex flex-column justify-content-between text-white p-3 shadow-sm sidebar-profesor"
+         style="background: linear-gradient(135deg, #065f46 0%, #047857 50%, #10b981 100%);">
+      <div>
+        <div class="mb-4 px-2" (click)="speechService.hablar('Panel de profesor de Curso Online')">
+          <h5 class="fw-bold mb-0 text-white">🎓 CursoOnline</h5>
+          <small class="text-white-50" style="font-size: 0.75rem;">PANEL DE PROFESOR</small>
+        </div>
+
+        <!-- Controles de Texto y Tema -->
+        <div class="bg-white bg-opacity-10 p-3 rounded mb-4 border border-white border-opacity-10">
+          <div class="mb-2">
+            <small class="text-white-50 d-block mb-1" style="font-size: 0.7rem;">A Texto:</small>
+            <div class="btn-group w-100" role="group">
+              <button type="button" class="btn btn-sm py-0 fw-bold" 
+                      [ngClass]="tamanoLetra === 'normal' ? 'btn-light text-success' : 'btn-outline-light'"
+                      (click)="cambiarTamanoTexto('normal'); speechService.hablar('Tamaño de texto normal')">A</button>
+              <button type="button" class="btn btn-sm py-0" 
+                      [ngClass]="tamanoLetra === 'grande' ? 'btn-light text-success fw-bold' : 'btn-outline-light'"
+                      (click)="cambiarTamanoTexto('grande'); speechService.hablar('Tamaño de texto grande')">A+</button>
+              <button type="button" class="btn btn-sm py-0" 
+                      [ngClass]="tamanoLetra === 'extra-grande' ? 'btn-light text-success fw-bold' : 'btn-outline-light'"
+                      (click)="cambiarTamanoTexto('extra-grande'); speechService.hablar('Tamaño de texto extra grande')">A++</button>
+            </div>
+          </div>
+          <div>
+            <small class="text-white-50 d-block mb-1" style="font-size: 0.7rem;">Tema:</small>
+            <button type="button" class="btn btn-sm w-100 py-1 d-flex align-items-center justify-content-center gap-2"
+                    [ngClass]="modoOscuro ? 'btn-warning text-dark fw-bold' : 'btn-outline-light'"
+                    (click)="toggleTemaOscuro()">
+              {{ modoOscuro ? '☀️ Claro' : '🌙 Oscuro' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Menú de Navegación -->
+        <div class="list-group list-group-flush gap-1">
+          <button class="list-group-item list-group-item-action border-0 rounded py-2 px-3 text-white fw-semibold"
+                  [ngClass]="seccionActiva === 'mis-cursos' ? 'bg-white text-success shadow-sm' : 'bg-transparent'"
+                  (click)="cambiarSeccion('mis-cursos')">
+            📚 Mis Cursos
+          </button>
+          <button class="list-group-item list-group-item-action border-0 rounded py-2 px-3 text-white fw-semibold"
+                  [ngClass]="seccionActiva === 'crear-curso' ? 'bg-white text-success shadow-sm' : 'bg-transparent'"
+                  (click)="cambiarSeccion('crear-curso')">
+            ➕ Crear Nuevo Curso
+          </button>
+          <button class="list-group-item list-group-item-action border-0 rounded py-2 px-3 text-white fw-semibold"
+                  [ngClass]="seccionActiva === 'inscripciones' ? 'bg-white text-success shadow-sm' : 'bg-transparent'"
+                  (click)="cambiarSeccion('inscripciones')">
+            👥 Alumnos Inscritos
+          </button>
+        </div>
+      </div>
+
+      <!-- PERFIL Y SALIDA -->
+      <div class="border-top border-white border-opacity-25 pt-3 mt-3 mt-lg-0">
+        <div class="d-flex align-items-center gap-2 mb-3 px-2">
+          <div class="bg-white text-success fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
+            {{ (nombreProfesor || 'P').charAt(0) }}
+          </div>
+          <div class="overflow-hidden">
+            <h6 class="mb-0 text-white text-truncate small fw-bold">{{ nombreProfesor }}</h6>
+            <span class="badge bg-light text-success" style="font-size: 0.65rem;">PROFESOR</span>
+          </div>
+        </div>
+        <button class="btn btn-light btn-sm text-success fw-semibold py-2 w-100 shadow-sm" (click)="cerrarSesion()">
+          🚪 Cerrar Sesión
+        </button>
+      </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="col-12 col-lg contenido-profesor overflow-y-auto p-3 p-md-4" [ngClass]="modoOscuro ? 'bg-dark text-light' : 'bg-light text-dark'">
+      
+      <!-- SECCIÓN MIS CURSOS -->
+      <div *ngIf="seccionActiva === 'mis-cursos'">
+        <h3 class="fw-bold mb-3">Gestión de Cursos</h3>
+        <div class="row g-3">
+          <div class="col-12 col-sm-6 col-md-4" *ngFor="let curso of misCursos">
+            <div class="card p-3 shadow-sm h-100 border-0 rounded-3" [ngClass]="modoOscuro ? 'bg-secondary text-light' : 'bg-white text-dark'">
+              <h5 class="fw-bold">{{ curso.titulo || curso.nombre }}</h5>
+              <p class="small" [ngClass]="modoOscuro ? 'text-light-50' : 'text-muted'">{{ curso.descripcion }}</p>
+              <div class="d-flex justify-content-between align-items-center mt-auto">
+                <span class="badge bg-success fs-6">$ {{ curso.precio || '0.00' }}</span>
+                <button class="btn btn-outline-danger btn-sm px-3" (click)="eliminarCurso(curso.id)">Eliminar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN CREAR CURSO -->
+      <div *ngIf="seccionActiva === 'crear-curso'" class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+          <div class="card border-0 shadow-sm p-4 rounded-3" [ngClass]="modoOscuro ? 'bg-secondary text-light' : 'bg-white text-dark'">
+            <h4 class="fw-bold mb-3">Publicar Nuevo Curso</h4>
+            <form (ngSubmit)="crearCurso()">
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Título del Curso</label>
+                <input type="text" class="form-control" [(ngModel)]="nuevoCurso.titulo" name="titulo" required 
+                       placeholder="Ej. Programación en Java" 
+                       (focus)="speechService.hablar('Casilla de título del curso')" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Descripción</label>
+                <textarea class="form-control" [(ngModel)]="nuevoCurso.descripcion" name="descripcion" rows="3" required 
+                          placeholder="Breve detalle del contenido..."
+                          (focus)="speechService.hablar('Casilla de descripción del curso')"></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-bold">Precio ($)</label>
+                <input type="number" class="form-control" [(ngModel)]="nuevoCurso.precio" name="precio" required 
+                       (focus)="speechService.hablar('Casilla de precio del curso')" />
+              </div>
+              <button type="submit" class="btn btn-success w-100 fw-semibold">Guardar y Publicar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN ALUMNOS INSCRITOS -->
+      <div *ngIf="seccionActiva === 'inscripciones'">
+        <h3 class="fw-bold mb-3">Alumnos Matriculados en mis Cursos</h3>
+        <div class="table-responsive rounded-3 shadow-sm p-3" [ngClass]="modoOscuro ? 'bg-secondary text-light' : 'bg-white text-dark'">
+          <table class="table align-middle" [ngClass]="modoOscuro ? 'table-dark' : ''">
+            <thead class="table-dark small">
+              <tr>
+                <th>Estudiante</th>
+                <th>Correo</th>
+                <th>Curso Inscrito</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ins of inscripcionesEstudiantes">
+                <td class="fw-bold">{{ ins.estudiante?.nombre }}</td>
+                <td>{{ ins.estudiante?.correo }}</td>
+                <td><span class="badge bg-success">{{ ins.curso?.titulo || ins.curso?.nombre }}</span></td>
+              </tr>
+              <tr *ngIf="inscripcionesEstudiantes.length === 0">
+                <td colspan="3" class="text-center py-4">No hay alumnos inscritos en tus cursos todavía.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ================= BOTÓN FLOTANTE DE ASISTENCIA POR VOZ ================= -->
+<button 
+  type="button" 
+  class="btn rounded-circle shadow position-fixed bottom-0 end-0 m-4 d-flex align-items-center justify-content-center text-white"
+  [ngClass]="speechService.isVozActiva() ? 'btn-success' : 'btn-dark'"
+  style="width: 55px; height: 55px; z-index: 1050; font-size: 1.4rem;"
+  (click)="alternarVoz()"
+  [title]="speechService.isVozActiva() ? 'Desactivar asistencia de voz' : 'Activar asistencia de voz'">
+  {{ speechService.isVozActiva() ? '🔊' : '🔇' }}
+</button>

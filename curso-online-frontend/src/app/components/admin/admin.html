@@ -1,0 +1,161 @@
+<div class="h-100 overflow-y-auto p-4">
+  
+  <!-- Indicador de Carga -->
+  <div *ngIf="cargando" class="text-center py-5 text-muted">
+    <p>Cargando panel de administración...</p>
+  </div>
+
+  <div *ngIf="!cargando">
+    <!-- TARJETAS DE ESTADÍSTICAS (KPIs) -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 bg-light rounded-3">
+          <small class="text-muted fw-bold">TOTAL USUARIOS</small>
+          <h3 class="fw-bold text-dark mt-1 mb-0">{{ usuariosAdmin.length }}</h3>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 bg-light rounded-3">
+          <small class="text-muted fw-bold">APROBADOS</small>
+          <h3 class="fw-bold text-success mt-1 mb-0">{{ (usuariosAdmin | slice:0).length }}</h3>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 bg-light rounded-3">
+          <small class="text-muted fw-bold">CURSOS CREADOS</small>
+          <h3 class="fw-bold text-primary mt-1 mb-0">{{ cursosDisponibles.length }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- PESTAÑAS DE NAVEGACIÓN INTERNA -->
+    <div class="d-flex gap-2 mb-4">
+      <button 
+        class="btn btn-sm" 
+        [ngClass]="seccionActiva === 'usuarios' ? 'btn-primary' : 'btn-outline-primary'"
+        (click)="seccionActiva = 'usuarios'">
+        👥 Gestionar Usuarios
+      </button>
+      <button 
+        class="btn btn-sm" 
+        [ngClass]="seccionActiva === 'cursos' ? 'btn-primary' : 'btn-outline-primary'"
+        (click)="seccionActiva = 'cursos'">
+        📚 Gestionar Cursos
+      </button>
+    </div>
+
+    <!-- VISTA 1: GESTIÓN DE USUARIOS -->
+    <div *ngIf="seccionActiva === 'usuarios'">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+          <h4 class="fw-bold text-dark mb-1">Usuarios del Sistema</h4>
+          <p class="text-muted small mb-0">Administra cuentas, aprueba accesos y cambia roles.</p>
+        </div>
+        <!-- Input de Búsqueda Instantánea -->
+        <div style="width: 280px;">
+          <input 
+            type="text" 
+            class="form-control form-control-sm" 
+            placeholder="🔍 Buscar por nombre o correo..." 
+            [(ngModel)]="busquedaUsuario"
+          />
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table align-middle table-hover border-top">
+          <thead class="table-dark">
+            <tr>
+              <th class="py-3"># ID</th>
+              <th class="py-3">Nombre y Correo</th>
+              <th class="py-3">Estado</th>
+              <th class="py-3">Rol Actual</th>
+              <th class="py-3 text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="usuariosFiltrados.length === 0">
+              <td colspan="5" class="text-center py-4 text-muted">No se encontraron usuarios coincidentes.</td>
+            </tr>
+            <tr *ngFor="let u of usuariosFiltrados">
+              <td class="fw-semibold text-secondary">#{{ u.id }}</td>
+              <td>
+                <div class="fw-bold text-dark">{{ u.nombre }}</div>
+                <small class="text-muted">{{ u.correo }}</small>
+              </td>
+              <td>
+                <span class="badge px-2 py-1" [ngClass]="u.estado === 'APROBADA' ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-warning-subtle text-warning border border-warning-subtle'">
+                  {{ u.estado || 'PENDIENTE' }}
+                </span>
+              </td>
+              <td>
+                <select 
+                  class="form-select form-select-sm shadow-sm" 
+                  style="width: 140px;"
+                  [value]="u.rol || 'ESTUDIANTE'" 
+                  (change)="cambiarRol(u.id, $event)">
+                  <option value="ESTUDIANTE">ESTUDIANTE</option>
+                  <option value="PROFESOR">PROFESOR</option>
+                  <option value="ADMIN">ADMIN</option>
+                </select>
+              </td>
+              <td class="text-end">
+                <div class="d-flex justify-content-end gap-2">
+                  <button *ngIf="u.estado !== 'APROBADA'" class="btn btn-success btn-sm px-3 shadow-sm" (click)="aprobarUsuario(u.id)">
+                    Aprobar
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm px-3 shadow-sm" (click)="eliminarUsuario(u.id)">
+                    Eliminar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VISTA 2: CATÁLOGO DE CURSOS -->
+    <div *ngIf="seccionActiva === 'cursos'">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+          <h4 class="fw-bold text-dark mb-1">Cursos Registrados en la Plataforma</h4>
+          <p class="text-muted small mb-0">Visualiza y administra todas las materias impartidas.</p>
+        </div>
+        <!-- Input de Búsqueda de Cursos -->
+        <div style="width: 280px;">
+          <input 
+            type="text" 
+            class="form-control form-control-sm" 
+            placeholder="🔍 Buscar curso..." 
+            [(ngModel)]="busquedaCurso"
+          />
+        </div>
+      </div>
+
+      <div *ngIf="cursosFiltrados.length === 0" class="text-center py-5 bg-light rounded text-muted">
+        No hay cursos coincidentes en el sistema.
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-6" *ngFor="let c of cursosFiltrados">
+          <div class="card border-0 shadow-sm p-4 h-100 bg-light d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h5 class="fw-bold text-dark mb-0">{{ c.nombre || c.titulo }}</h5>
+                <span class="badge bg-primary text-white px-3 py-2">$ {{ c.precio }}</span>
+              </div>
+              <p class="text-muted small mb-3">{{ c.descripcion }}</p>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-secondary-subtle">
+              <small class="text-secondary fw-semibold">ID del Curso: #{{ c.id }}</small>
+              <button class="btn btn-outline-danger btn-sm px-3 shadow-sm" (click)="eliminarCurso(c.id)">
+                Eliminar Curso
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

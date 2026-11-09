@@ -1,0 +1,231 @@
+<div class="container-fluid p-0 m-0 admin-wrapper"
+     [ngClass]="{
+       'bg-dark text-light': modoOscuro, 
+       'bg-light': !modoOscuro,
+       'texto-normal': tamanoLetra === 'normal',
+       'texto-grande': tamanoLetra === 'grande',
+       'texto-extra-grande': tamanoLetra === 'extra-grande'
+     }">
+  <div class="row g-0 flex-column flex-lg-row h-100">
+    
+    <!-- ================= SIDEBAR IZQUIERDO ================= -->
+    <div class="col-12 col-lg-auto d-flex flex-column justify-content-between text-white p-3 shadow-sm sidebar-admin"
+         style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);">
+      <div>
+        <!-- Logo y Título -->
+        <div class="mb-4 px-2" (click)="speechService.hablar('Panel de administración de Curso Online')">
+          <h5 class="fw-bold mb-0 text-white d-flex align-items-center gap-2">
+            🎓 CursoOnline
+          </h5>
+          <small class="text-white-50" style="font-size: 0.75rem;">PANEL DE ADMIN</small>
+        </div>
+
+        <!-- Controles de Texto y Tema -->
+        <div class="bg-white bg-opacity-10 p-3 rounded mb-4 border border-white border-opacity-10">
+          <div class="mb-2">
+            <small class="text-white-50 d-block mb-1" style="font-size: 0.7rem;">A Texto:</small>
+            <div class="btn-group w-100" role="group">
+              <button type="button" class="btn btn-sm py-0 fw-bold" 
+                      [ngClass]="tamanoLetra === 'normal' ? 'btn-light text-primary' : 'btn-outline-light'"
+                      (click)="cambiarTamanoTexto('normal'); speechService.hablar('Tamaño de texto normal')">A</button>
+              <button type="button" class="btn btn-sm py-0" 
+                      [ngClass]="tamanoLetra === 'grande' ? 'btn-light text-primary fw-bold' : 'btn-outline-light'"
+                      (click)="cambiarTamanoTexto('grande'); speechService.hablar('Tamaño de texto grande')">A+</button>
+              <button type="button" class="btn btn-sm py-0" 
+                      [ngClass]="tamanoLetra === 'extra-grande' ? 'btn-light text-primary fw-bold' : 'btn-outline-light'"
+                      (click)="cambiarTamanoTexto('extra-grande'); speechService.hablar('Tamaño de texto extra grande')">A++</button>
+            </div>
+          </div>
+          <div>
+            <small class="text-white-50 d-block mb-1" style="font-size: 0.7rem;">Tema:</small>
+            <button type="button" class="btn btn-sm w-100 py-1 d-flex align-items-center justify-content-center gap-2"
+                    [ngClass]="modoOscuro ? 'btn-warning text-dark fw-bold' : 'btn-outline-light'"
+                    (click)="toggleTemaOscuro(); speechService.hablar(modoOscuro ? 'Modo oscuro activado' : 'Modo claro activado')">
+              {{ modoOscuro ? '☀️ Claro' : '🌙 Oscuro' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Menú de Navegación -->
+        <div class="list-group list-group-flush gap-1">
+          <button class="list-group-item list-group-item-action border-0 rounded py-2 px-3 d-flex align-items-center gap-2 text-white fw-semibold"
+                  [ngClass]="seccionActiva === 'usuarios' ? 'bg-white text-primary shadow-sm' : 'bg-transparent'"
+                  (click)="cambiarSeccion('usuarios')" style="transition: all 0.2s;">
+            👥 Usuarios
+          </button>
+          <button class="list-group-item list-group-item-action border-0 rounded py-2 px-3 d-flex align-items-center gap-2 text-white fw-semibold"
+                  [ngClass]="seccionActiva === 'cursos' ? 'bg-white text-primary shadow-sm' : 'bg-transparent'"
+                  (click)="cambiarSeccion('cursos')" style="transition: all 0.2s;">
+            📚 Cursos
+          </button>
+        </div>
+      </div>
+
+      <!-- Perfil de Usuario en el Sidebar y Cerrar Sesión -->
+      <div class="border-top border-white border-opacity-25 pt-3 mt-3 mt-lg-0">
+        <div class="d-flex align-items-center gap-2 mb-3 px-2">
+          <div class="bg-white text-primary fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
+            {{ (nombreAdmin || 'A').charAt(0) }}
+          </div>
+          <div class="overflow-hidden">
+            <h6 class="mb-0 text-white text-truncate small fw-bold">{{ nombreAdmin || 'Administrador General' }}</h6>
+            <small class="text-white-50" style="font-size: 0.7rem;">ADMIN</small>
+          </div>
+        </div>
+        <button class="btn btn-light w-100 btn-sm text-primary fw-semibold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2"
+                (click)="cerrarSesion()">
+          🚪 Cerrar Sesión
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= CONTENIDO PRINCIPAL ================= -->
+    <div class="col-12 col-lg contenido-admin overflow-y-auto p-3 p-md-4" [ngClass]="modoOscuro ? 'bg-dark text-light' : 'bg-light text-dark'">
+      
+      <!-- Tarjetas de Métricas Superiores -->
+      <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="card border-0 shadow-sm p-3 rounded-3" [ngClass]="modoOscuro ? 'bg-secondary text-light' : 'bg-white text-dark'"
+               (click)="speechService.hablar('Total de usuarios en el sistema: ' + usuariosAdmin.length)">
+            <small class="text-secondary fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">TOTAL USUARIOS</small>
+            <h2 class="fw-bold mb-0 mt-1">{{ usuariosAdmin.length }}</h2>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="card border-0 shadow-sm p-3 rounded-3" [ngClass]="modoOscuro ? 'bg-secondary text-light' : 'bg-white text-dark'"
+               (click)="speechService.hablar('Usuarios aprobados: ' + contarUsuariosPorEstado('APROBADA'))">
+            <small class="text-secondary fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">APROBADOS</small>
+            <h2 class="fw-bold mb-0 text-success mt-1">{{ contarUsuariosPorEstado('APROBADA') }}</h2>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="card border-0 shadow-sm p-3 rounded-3" [ngClass]="modoOscuro ? 'bg-secondary text-light' : 'bg-white text-dark'"
+               (click)="speechService.hablar('Usuarios pendientes: ' + contarUsuariosPorEstado('PENDIENTE'))">
+            <small class="text-secondary fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">PENDIENTES</small>
+            <h2 class="fw-bold mb-0 text-warning mt-1">{{ contarUsuariosPorEstado('PENDIENTE') }}</h2>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="card border-0 shadow-sm p-3 rounded-3" [ngClass]="modoOscuro ? 'bg-secondary text-light' : 'bg-white text-dark'"
+               (click)="speechService.hablar('Total de cursos publicados: ' + cursosDisponibles.length)">
+            <small class="text-secondary fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">TOTAL CURSOS</small>
+            <h2 class="fw-bold mb-0 text-primary mt-1">{{ cursosDisponibles.length }}</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SECCIÓN USUARIOS ================= -->
+      <div *ngIf="seccionActiva === 'usuarios'" class="card border-0 shadow-sm p-3 p-md-4 rounded-3" [ngClass]="modoOscuro ? 'bg-secondary text-light' : 'bg-white text-dark'">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 mb-3">
+          <div>
+            <h4 class="fw-bold mb-1">Usuarios del Sistema</h4>
+            <p class="text-muted small mb-0">Administra cuentas, aprueba accesos y cambia roles.</p>
+          </div>
+          <div class="w-100 w-md-25">
+            <input type="text" class="form-control form-control-sm" placeholder="🔍 Buscar..." 
+                   [(ngModel)]="busquedaUsuario" 
+                   (focus)="speechService.hablar('Casilla de búsqueda de usuarios')" />
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table align-middle table-hover" [ngClass]="modoOscuro ? 'table-dark' : ''">
+            <thead class="table-dark text-uppercase small" style="font-size: 0.75rem;">
+              <tr>
+                <th class="py-3"># ID</th>
+                <th class="py-3">Nombre y Correo</th>
+                <th class="py-3">Estado</th>
+                <th class="py-3">Rol Actual</th>
+                <th class="py-3 text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let u of usuariosFiltrados">
+                <td class="fw-semibold text-secondary">#{{ u.id }}</td>
+                <td>
+                  <div class="fw-bold">{{ u.nombre }}</div>
+                  <small class="text-muted">{{ u.correo }}</small>
+                </td>
+                <td>
+                  <span class="badge px-3 py-1 fw-semibold" 
+                        [ngClass]="u.estado === 'APROBADA' ? 'bg-success-subtle text-success border border-success-subtle' : 'bg-warning-subtle text-warning border border-warning-subtle'">
+                    {{ u.estado || 'PENDIENTE' }}
+                  </span>
+                </td>
+                <td>
+                  <select class="form-select form-select-sm shadow-none" style="width: 140px;" [value]="u.rol" 
+                          (change)="cambiarRol(u.id, $event)"
+                          (focus)="speechService.hablar('Cambiar rol para el usuario ' + u.nombre)">
+                    <option value="ESTUDIANTE">ESTUDIANTE</option>
+                    <option value="PROFESOR">PROFESOR</option>
+                    <option value="ADMIN">ADMIN</option>
+                  </select>
+                </td>
+                <td class="text-end">
+                  <div class="d-flex justify-content-end gap-1">
+                    <!-- Botón Aprobar -->
+                    <button 
+                      *ngIf="u.estado === 'PENDIENTE' || u.estado === 'ESPERANDO_ADMIN'" 
+                      class="btn btn-sm btn-success px-3" 
+                      (click)="aprobarUsuario(u.id)">
+                      Aprobar
+                    </button>
+
+                    <!-- Botón Eliminar -->
+                    <button class="btn btn-outline-danger btn-sm px-3" 
+                            (click)="eliminarUsuario(u.id); speechService.hablar('Eliminando usuario ' + u.nombre)">
+                      Eliminar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ================= SECCIÓN CURSOS ================= -->
+      <div *ngIf="seccionActiva === 'cursos'" class="card border-0 shadow-sm p-3 p-md-4 rounded-3" [ngClass]="modoOscuro ? 'bg-secondary text-light' : 'bg-white text-dark'">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 mb-3">
+          <div>
+            <h4 class="fw-bold mb-1">Catálogo de Cursos</h4>
+            <p class="text-muted small mb-0">Gestión y control de materias publicadas.</p>
+          </div>
+          <div class="w-100 w-md-25">
+            <input type="text" class="form-control form-control-sm" placeholder="🔍 Buscar curso..." 
+                   [(ngModel)]="busquedaCurso" 
+                   (focus)="speechService.hablar('Casilla de búsqueda de cursos')" />
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-sm-6 col-md-4" *ngFor="let c of cursosFiltrados">
+            <div class="card p-3 shadow-sm h-100 border-0 rounded-3" [ngClass]="modoOscuro ? 'bg-dark text-light' : 'bg-light text-dark'">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h5 class="fw-bold mb-0">{{ c.titulo || c.nombre }}</h5>
+                <span class="badge bg-primary">$ {{ c.precio || '0.00' }}</span>
+              </div>
+              <p class="small mb-3" [ngClass]="modoOscuro ? 'text-light-50' : 'text-muted'">{{ c.descripcion }}</p>
+              <button class="btn btn-outline-danger btn-sm mt-auto align-self-start" 
+                      (click)="eliminarCurso(c.id); speechService.hablar('Eliminando curso ' + (c.titulo || c.nombre))">
+                Eliminar Curso
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ================= BOTÓN FLOTANTE DE ASISTENCIA POR VOZ ================= -->
+<button 
+  type="button" 
+  class="btn rounded-circle shadow position-fixed bottom-0 end-0 m-4 d-flex align-items-center justify-content-center text-white"
+  [ngClass]="speechService.isVozActiva() ? 'btn-success' : 'btn-dark'"
+  style="width: 55px; height: 55px; z-index: 1050; font-size: 1.4rem;"
+  (click)="alternarVoz()"
+  [title]="speechService.isVozActiva() ? 'Desactivar asistencia de voz' : 'Activar asistencia de voz'">
+  {{ speechService.isVozActiva() ? '🔊' : '🔇' }}
+</button>

@@ -1,0 +1,5 @@
+/* Importar Bootstrap CSS */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* Importar los estilos de ngx-toastr para las notificaciones flotantes */
+@import 'ngx-toastr/toastr';

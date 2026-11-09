@@ -1,0 +1,8 @@
+/* Asegura que en celulares el panel izquierdo y derecho se apilen de forma limpia */
+@media (max-width: 991.98px) {
+  .vh-100 {
+    height: auto !important;
+    min-height: 100vh;
+    overflow-y: auto !important;
+  }
+}

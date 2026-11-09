@@ -1,0 +1,12 @@
+/* Asegurar pantalla completa sin scroll global innecesario */
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Estilo suave para los inputs de la derecha */
+.form-control:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+}

@@ -1,0 +1,22 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet],
+  template: `
+    <router-outlet></router-outlet>
+  `,
+  styles: [`
+    /* Estilos globales para la raíz si son necesarios */
+    :host {
+      display: block;
+      height: 100vh;
+    }
+  `]
+})
+export class AppComponent {
+  title = 'curso-online-frontend';
+}

@@ -1,0 +1,109 @@
+<div class="h-100 overflow-y-auto p-4">
+  <div *ngIf="cargando" class="text-center py-5 text-muted">
+    <p>Cargando panel de profesor...</p>
+  </div>
+
+  <div *ngIf="!cargando">
+    <!-- SECCIÓN 1: CREAR NUEVO CURSO -->
+    <div class="card border-0 shadow-sm p-4 mb-4 rounded-4 bg-light">
+      <h4 class="fw-bold mb-3 text-primary">✨ Crear Nuevo Curso</h4>
+      <form (submit)="registrarCurso($event)">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold small">Título</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Ej. Spring Boot Avanzado" 
+              [(ngModel)]="nuevoCurso.titulo" 
+              name="titulo" 
+              required 
+            />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold small">Nombre del Curso</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Ej. Backend Java" 
+              [(ngModel)]="nuevoCurso.nombre" 
+              name="nombre" 
+              required 
+            />
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold small">Descripción</label>
+            <textarea 
+              class="form-control" 
+              rows="3" 
+              placeholder="Detalles del contenido..." 
+              [(ngModel)]="nuevoCurso.descripcion" 
+              name="descripcion" 
+              required>
+            </textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold small">Precio ($)</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              [(ngModel)]="nuevoCurso.precio" 
+              name="precio" 
+              required 
+            />
+          </div>
+          <div class="col-md-6 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100 shadow-sm fw-semibold">
+              Publicar Curso
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- SECCIÓN 2: MIS CURSOS IMPARTIDOS -->
+    <div class="mb-4">
+      <h5 class="fw-bold mb-3">📚 Mis Cursos Impartidos</h5>
+      <div *ngIf="misCursosProf.length === 0" class="text-center py-4 bg-light rounded text-muted">
+        No has creado ningún curso todavía.
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6" *ngFor="let c of misCursosProf">
+          <div class="card border-0 shadow-sm p-3 h-100 bg-light">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="fw-bold mb-0">{{ c.titulo || c.nombre }}</h5>
+              <span class="badge bg-primary text-white px-2 py-1">$ {{ c.precio }}</span>
+            </div>
+            <p class="text-muted small mb-0">{{ c.descripcion }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 3: ESTUDIANTES INSCRITOS -->
+    <div>
+      <h5 class="fw-bold mb-3">🎓 Alumnos Matriculados en tus Cursos</h5>
+      <div *ngIf="misInscripciones.length === 0" class="text-center py-4 bg-light rounded text-muted">
+        No hay estudiantes inscritos en tus cursos actualmente.
+      </div>
+      <div class="table-responsive" *ngIf="misInscripciones.length > 0">
+        <table class="table align-middle table-hover border-top">
+          <thead class="table-dark">
+            <tr>
+              <th>Estudiante</th>
+              <th>Correo</th>
+              <th>Curso Matriculado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ins of misInscripciones">
+              <td class="fw-bold">{{ ins.estudiante?.nombre || 'Estudiante' }}</td>
+              <td class="text-muted">{{ ins.estudiante?.correo }}</td>
+              <td><span class="badge bg-info-subtle text-info border border-info-subtle">{{ ins.curso?.titulo || ins.curso?.nombre }}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

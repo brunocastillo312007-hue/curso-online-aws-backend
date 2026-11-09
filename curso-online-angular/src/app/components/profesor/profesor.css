@@ -1,0 +1,32 @@
+/* Estilos globales de accesibilidad para el tamaño de letra */
+.texto-normal {
+  font-size: 1rem !important;
+}
+
+.texto-normal h3, .texto-normal h4, .texto-normal h5 {
+  font-size: initial !important;
+}
+
+.texto-grande {
+  font-size: 1.15rem !important;
+}
+
+.texto-grande p, .texto-grande span, .texto-grande a, .texto-grande label, .texto-grande th, .texto-grande td {
+  font-size: 1.15rem !important;
+}
+
+.texto-grande h3 { font-size: 1.75rem !important; }
+.texto-grande h4 { font-size: 1.5rem !important; }
+.texto-grande h5 { font-size: 1.25rem !important; }
+
+.texto-extra-grande {
+  font-size: 1.3rem !important;
+}
+
+.texto-extra-grande p, .texto-extra-grande span, .texto-extra-grande a, .texto-extra-grande label, .texto-extra-grande th, .texto-extra-grande td {
+  font-size: 1.3rem !important;
+}
+
+.texto-extra-grande h3 { font-size: 2rem !important; }
+.texto-extra-grande h4 { font-size: 1.75rem !important; }
+.texto-extra-grande h5 { font-size: 1.5rem !important; }

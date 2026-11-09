@@ -1,0 +1,60 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+html, body {
+  height: auto !important;
+  min-height: 100vh !important;
+  overflow-y: auto !important;
+}
+
+.admin-wrapper, .profesor-wrapper, .estudiante-wrapper {
+  min-height: 100vh;
+  height: auto;
+}
+
+.login-wrapper {
+  min-height: 100vh;
+  height: auto;
+}
+
+.form-control:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+}
+
+@media (min-width: 992px) {
+  .admin-wrapper, .profesor-wrapper, .estudiante-wrapper {
+    height: 100vh !important;
+    overflow: hidden !important;
+  }
+  
+  .admin-wrapper > .row, 
+  .profesor-wrapper > .row, 
+  .estudiante-wrapper > .row {
+    height: 100vh !important;
+    flex-wrap: nowrap !important;
+  }
+
+  /* Ancho fijo para las barras laterales */
+  .sidebar-admin, .sidebar-profesor, .sidebar-estudiante {
+    width: 280px !important;
+    min-width: 280px !important;
+    height: 100vh !important;
+    overflow-y: auto !important;
+  }
+
+  /* El contenido ocupa el resto del espacio y hace scroll independiente */
+  .contenido-admin, .contenido-profesor, .contenido-estudiante {
+    height: 100vh !important;
+    overflow-y: auto !important;
+    flex-grow: 1;
+  }
+
+  .login-wrapper, .login-wrapper .row {
+    height: 100vh !important;
+    overflow: hidden !important;
+  }
+  .panel-izquierdo-login, .panel-derecho-login {
+    height: 100vh !important;
+    overflow-y: auto !important;
+  }
+}

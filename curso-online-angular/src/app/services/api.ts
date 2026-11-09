@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'; // o '@angular/common/http' según tu proyecto
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   // Reemplaza esta URL con la URL pública de Tailscale Funnel que apunta a tu backend (ej. puerto 8443 o la ruta de tu servicio)
-  private baseUrl = 'https://laptop-hj4guj0k.taile5d438.ts.net:8443/api';
+  //private baseUrl = 'https://laptop-hj4guj0k.taile5d438.ts.net:8443/api';
+  private baseUrl = `${environment.apiUrl}/api`;
+  
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders() {

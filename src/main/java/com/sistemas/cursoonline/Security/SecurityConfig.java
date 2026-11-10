@@ -17,19 +17,19 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .cors(Customizer.withDefaults())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/cursos/**").permitAll() // <-- Opcional si los cursos son públicos o requieren autenticación específica
-                .requestMatchers("/api/admin/**").authenticated() // Exige token para administración
-                .anyRequest().authenticated()
-            );
-        return http.build();
-    }
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(csrf -> csrf.disable())
+        .cors(Customizer.withDefaults())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            .requestMatchers("/api/auth/**").permitAll()
+            .requestMatchers("/api/cursos/**").permitAll() // Permitir temporalmente para probar
+            .requestMatchers("/api/admin/**").permitAll() // Permitir temporalmente para verificar si cargan los datos
+            .anyRequest().authenticated()
+        );
+    return http.build();
+}
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

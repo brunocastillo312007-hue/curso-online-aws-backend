@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class ApiService {
   // Reemplaza esta URL con la URL pública de Tailscale Funnel que apunta a tu backend (ej. puerto 8443 o la ruta de tu servicio)
-  private baseUrl = `${environment.apiUrl}/api`;
+  private baseUrl = 'https://curso-online-backend-production.up.railway.app/api';
   //private baseUrl = `${environment.apiUrl}/api`;
   
   constructor(private http: HttpClient) {}

@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/usuarios/*/aprobar").permitAll()
                 .requestMatchers("/api/cursos/**").permitAll() 
                 .requestMatchers("/api/admin/**").permitAll() 
-                .requestMatchers(HttpMethod.POST, "/api/inscripciones/**").permitAll() // <--- ¡Permite las inscripciones aquí! (O usa .hasAuthority("ESTUDIANTE"))
+                .requestMatchers("/api/inscripciones/**").authenticated() // <--- ¡Exige autenticación con token para inscripciones! (O .permitAll() para probar)
                 .anyRequest().authenticated()
             );
         return http.build();

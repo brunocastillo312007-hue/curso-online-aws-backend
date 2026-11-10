@@ -1,4 +1,4 @@
-package com.sistemas.cursoonline.Security; // (o el paquete que corresponda)
+package com.sistemas.cursoonline.Security;
 
 import java.util.List;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +20,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .cors(Customizer.withDefaults()) // Activa la integración de CORS en Spring Security
+            .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // <--- ¡Vital! Permite las peticiones de prueba OPTIONS del navegador
-                .requestMatchers("/api/auth/**").permitAll()            // Permite el login y registro libremente
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated()
             );
         return http.build();

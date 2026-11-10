@@ -23,7 +23,9 @@ public class SecurityConfig {
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/auth/**").permitAll() // Permite login y test
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/cursos/**").permitAll() // <-- Opcional si los cursos son públicos o requieren autenticación específica
+                .requestMatchers("/api/admin/**").authenticated() // Exige token para administración
                 .anyRequest().authenticated()
             );
         return http.build();

@@ -20,7 +20,7 @@ import com.sistemas.cursoonline.Security.JwtUtil;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://curso-online-steel.vercel.app"})
 public class AuthController {
 
     @Autowired

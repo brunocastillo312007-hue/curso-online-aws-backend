@@ -17,22 +17,22 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .cors(Customizer.withDefaults())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/usuarios", "/api/usuarios/verificar").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/api/usuarios/*/aprobar").permitAll()
-                .requestMatchers("/api/cursos/**").permitAll() 
-                .requestMatchers("/api/admin/**").permitAll() 
-                .requestMatchers("/api/inscripciones/**").authenticated() // <--- ¡Exige autenticación con token para inscripciones! (O .permitAll() para probar)
-                .anyRequest().authenticated()
-            );
-        return http.build();
-    }
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(csrf -> csrf.disable())
+        .cors(Customizer.withDefaults())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            .requestMatchers("/api/auth/**").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/usuarios", "/api/usuarios/verificar").permitAll()
+            .requestMatchers(HttpMethod.PUT, "/api/usuarios/*/aprobar").permitAll()
+            .requestMatchers("/api/cursos/**").permitAll() 
+            .requestMatchers("/api/admin/**").permitAll() 
+            .requestMatchers("/api/inscripciones/**").permitAll() // <--- ¡Cámbialo temporal o permanentemente a permitAll() aquí!
+            .anyRequest().authenticated()
+        );
+    return http.build();
+}
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

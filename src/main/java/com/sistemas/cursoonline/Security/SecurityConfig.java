@@ -24,7 +24,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll() // <--- ¡Permite el registro público de nuevos usuarios!
+                .requestMatchers(HttpMethod.POST, "/api/usuarios", "/api/usuarios/verificar").permitAll() // <--- ¡Añade /api/usuarios/verificar aquí!
                 .requestMatchers("/api/cursos/**").permitAll() 
                 .requestMatchers("/api/admin/**").permitAll() 
                 .anyRequest().authenticated()

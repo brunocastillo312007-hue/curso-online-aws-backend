@@ -24,9 +24,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/usuarios", "/api/usuarios/verificar").permitAll() // <--- ¡Añade /api/usuarios/verificar aquí!
+                .requestMatchers(HttpMethod.POST, "/api/usuarios", "/api/usuarios/verificar").permitAll()
                 .requestMatchers("/api/cursos/**").permitAll() 
                 .requestMatchers("/api/admin/**").permitAll() 
+                .requestMatchers(HttpMethod.PUT, "/api/usuarios/*/aprobar").permitAll() // <--- ¡Permite aprobar cuentas aquí! (O usa .hasAuthority("ADMIN"))
                 .anyRequest().authenticated()
             );
         return http.build();
